@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>When things go wrong</title>
+        <meta name="viewport" content="width=device-width">
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="../css/main.css">
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="../css/bootstrap.css">
+
+    </head>
+    <body>
+
+        <div class="masthead">
+        </div>
+
+	<div class="splash">
+	  <br>
+	  <div class="row">
+	    <div class="span2 offset4">
+	      <img src="../assets/icon.png" width="120">
+	    </div>
+	    <div class="span4">
+	      <br>
+	      <h1>Claimtracker</h1>
+	      <h2>User documentation</h2>
+	    </div>
+	  </div>
+	  <br>
+	</div>
+
+        <div class="site">
+
+		<p><a href="../index.html">&laquo; Return home.</a></p>
+
+<h2>When things go wrong</h2>
+
+<div class="post">
+<p>Claimtracker maintains a log file (claimtracker.log) in the same directory where
+the executable resides. There are five levels of detail that claimtracker can log,
+which determines what events are recorded in the log file. The granularity can be
+selected in Edit&gt;&gt;Preferences, and the five levels are:
+<br><br>
+<em>DEBUG</em> - used for interal system events that are not necessarily observable from the
+application but are useful to trace the steps leading to an event.
+<br><br>
+<em>INFO</em> - used to describe services starting and stopping, or to provide information
+about the state of the application.
+<br><br>
+<em>WARNING</em> - used to describe mis-behaving but recoverable events in the software, such
+as malformed inputs and outputs.
+<br><br>
+<em>ERROR</em> - used to describe non-critical errors that break functionality, such as the
+inability to update claims.
+<br><br>
+<em>CRITICAL</em> - used to describe fatal events that is forcing the shutdown of the service
+or application.
+<br><br>
+By default, the claimtracker logging level is set to <em>DEBUG</em>, and it is recommended to
+leave the software at this level while it is being actively developed.
+<br><br>
+In the event of unexpected behaviour or critical failures, please email
+<a href="mailto:jhm@jemscout.com">jhm@jemscout.com</a> with a thorough
+descriptions of the events leading to the bug and the log file attached.</p>
+
+</div>
+
+<div class="author">
+Last edited: 25 Feb 2017
+</div>
+
+
+          <div class="footer">
+            <div class="contact">
+              <p>
+	      <h3>Claimtracker</h3>
+	      Created by Jack Morton<br/>
+	      For more information, email <a href="mailto:jhm@jemscout.com">jhm@jemscout.com</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      
+      <div class="footy" id="bottom">
+      </div>
+
+    </body>
+</html>
