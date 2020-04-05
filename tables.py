@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright (c) 2016 Jem Scout Limited
+# Copyright (c) 2016 Jack Morton <jhm@jemscout.com>
 #
 # All information contained herein is, and remains the property of Jem Scout
 # Limited and its suppliers, if any.  The intellectual and technical concepts
