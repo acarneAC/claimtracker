@@ -1,6 +1,7 @@
 ## *claimtracker* ##
 
 ![claimtracker](icon.png)
+
 v 0.9.3
 
 *claimtracker* organizes and updates mineral tenure information for claims
@@ -18,8 +19,8 @@ for more information.
 This software is designed for Windows, and compilation/installation is left 
 as an exercise to the reader. I do recall having to patch the selenium python
 module in order to prevent it from popping open a console window every time
-the driver is used. Some information on hor to do this can be found
-[here](https://stackoverflow.com/questions/33983860)
+the driver is used. Some information on how to do this can be found
+[here.](https://stackoverflow.com/questions/33983860)
 
 ### Usage/Help ###
 
