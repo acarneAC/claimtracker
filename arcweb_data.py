@@ -71,7 +71,8 @@ def get_data_NV(tenure_list):
     cols = ["CLAIMANT", "CLAIMNAME", "LOCDATE", "SERIALNUMB"]
     data = get_data(url, service_url, layer, tenure_list, tenure_filter_col, cols)
     data = [{
-        "RegDate": datetime.fromtimestamp(d["LOCDATE"] / 1000) if d["LOCDATE"] is not None else None,
+        "RegDate": datetime.fromtimestamp(d["LOCDATE"] / 1000)
+            if d["LOCDATE"] > 0 else datetime(1970, 1, 1) + timedelta(seconds=d["RECORDED_DATE"]/1000),
         "Owner": d["CLAIMANT"],
         "Area_ha": None,
         "ParcelName": d["CLAIMNAME"],
@@ -80,6 +81,45 @@ def get_data_NV(tenure_list):
     } for d in data]
     return data
 
+
+def get_data_BC(tenure_list):
+    url = 'https://maps.gov.bc.ca/arcserver/rest/services/'
+    service_url = 'https://maps.gov.bc.ca/arcserver/rest/services/mpcm/bcgwpub/MapServer'
+    layer=213
+    tenure_filter_col="TENURE_NUMBER_ID"
+    cols = ["AREA_IN_HECTARES", "CLAIM_NAME", "ISSUE_DATE", "GOOD_TO_DATE", "OWNER_NAME", "TENURE_NUMBER_ID"]
+    data = get_data(url, service_url, layer, tenure_list, tenure_filter_col, cols)
+    data = [{
+        "RegDate": datetime.fromtimestamp(d["ISSUE_DATE"] / 1000)
+            if d["ISSUE_DATE"] > 0 else datetime(1970, 1, 1) + timedelta(seconds=d["ISSUE_DATE"]/1000),
+        "Owner": d["OWNER_NAME"],
+        "Area_ha": d["AREA_IN_HECTARES"],
+        "ParcelName": d["CLAIM_NAME"],
+        "RegTitleNumber": d["TENURE_NUMBER_ID"],
+        "NextDueDate": datetime.fromtimestamp(d["GOOD_TO_DATE"] / 1000)
+            if d["GOOD_TO_DATE"] > 0 else datetime(1970, 1, 1) + timedelta(seconds=d["GOOD_TO_DATE"]/1000),
+    } for d in data]
+    return data
+
+
+def get_data_NU(tenure_list):
+    url = 'https://data.aadnc-aandc.gc.ca/geomatics/rest/services/Donnees_Ouvertes-Open_Data/'
+    service_url = 'https://data.aadnc-aandc.gc.ca/geomatics/rest/services/Donnees_Ouvertes-Open_Data/Claim_minier_NU_Mineral_Claim/MapServer'
+    layer = 0
+    tenure_filter_col="CLAIM_NUM"
+    cols = ["AREA_HA", "CLAIM_NUM", "CLAIM_NAME", "ISSUE_DATE", "ANNIV_DT", "OWNERS"]
+    data = get_data(url, service_url, layer, tenure_list, tenure_filter_col, cols)
+    data = [{
+        "RegDate": datetime.fromtimestamp(d["ISSUE_DATE"] / 1000)
+            if d["ISSUE_DATE"] > 0 else datetime(1970, 1, 1) + timedelta(seconds=d["ISSUE_DATE"]/1000),
+        "Owner": d["OWNERS"],
+        "Area_ha": d["AREA_HA"],
+        "ParcelName": d["CLAIM_NAME"],
+        "RegTitleNumber": d["CLAIM_NUM"],
+        "NextDueDate": datetime.fromtimestamp(d["ANNIV_DT"] / 1000)
+            if d["ANNIV_DT"] > 0 else datetime(1970, 1, 1) + timedelta(seconds=d["ANNIV_DT"]/1000),
+    } for d in data]
+    return data
 
 def get_data(base_url, service_url, layer, tenure_list, tenure_filter_col, out_cols=None, batch_size=25):
     start = 0
@@ -102,7 +142,10 @@ def get_data_slice(base_url, service_url, layer, tenure_list, tenure_filter_col,
     if not out_cols:
         out_cols = "*"
 
-    query = tenure_filter_col + " IN (" + ','.join(["'" + t + "'" for t in tenure_list]) + ")"
+    try:
+        query = tenure_filter_col + " IN (" + ','.join([str(int(t)) for t in tenure_list]) + ")"
+    except ValueError:
+        query = tenure_filter_col + " IN (" + ','.join(["'" + str(t) + "'" for t in tenure_list]) + ")"
 
     extension = service_url.split('/')[-1]
     if extension == 'MapServer':

@@ -90,6 +90,12 @@ def update_tenure(db: DbDefinition, inTable: TableDefinition, outTable: TableDef
     elif jurisdiction == "NWT":
         data_func = arcweb_data.get_data_NWT
         jurisdiction_id = 2
+    elif jurisdiction == "NU":
+        data_func = arcweb_data.get_data_NU
+        jurisdiction_id = 3
+    elif jurisdiction == "BC":
+        data_func = arcweb_data.get_data_BC
+        jurisdiction_id = 7
     else:
         raise NotImplementedError
 
